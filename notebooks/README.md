@@ -4,8 +4,11 @@ This directory contains modular Jupyter notebooks for interactive exploration an
 
 notebooks/
 ├── 01_scrape_and_explore.ipynb
+
 ├── 02_preprocessing_and_cleaning.ipynb
+
 ├── 03_sentiment_and_keywords.ipynb
+
 └── 04_theming_and_reporting.ipynb
 ---
 
