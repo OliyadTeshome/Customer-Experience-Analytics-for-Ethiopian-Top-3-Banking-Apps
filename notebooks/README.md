@@ -3,6 +3,7 @@
 This directory contains modular Jupyter notebooks for interactive exploration and analysis during the project lifecycle.
 
 notebooks/
+
 ├── 01_scrape_and_explore.ipynb
 
 ├── 02_preprocessing_and_cleaning.ipynb
@@ -10,6 +11,7 @@ notebooks/
 ├── 03_sentiment_and_keywords.ipynb
 
 └── 04_theming_and_reporting.ipynb
+
 ---
 
 ## 📘 Notebook List
