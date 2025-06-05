@@ -1,0 +1,51 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Environment files
+.env
+.venv/
+venv/
+*.env
+
+# Logs
+*.log
+
+# VS Code settings
+.vscode/
+
+# OS/system files
+.DS_Store
+Thumbs.db
+
+# Output files
+outputs/
+*.xlsx
+*.csv
+
+# Python packaging
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Unit test cache
+.cache/
+coverage/
+
+# PyInstaller
+*.spec
+
+# Oracle instant client or credentials (you should never commit credentials)
+oracle_wallet/
+*.ora
+*.dmp
+
+# Reports and visuals
+*.png
+*.pdf

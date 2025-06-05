@@ -1,0 +1,13 @@
+google-play-scraper
+nltk
+textblob
+pandas
+numpy
+sqlalchemy
+cx_Oracle
+scikit-learn
+matplotlib
+seaborn
+wordcloud
+spacy
+openpyxl
