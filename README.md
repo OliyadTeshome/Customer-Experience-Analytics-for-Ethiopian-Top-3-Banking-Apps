@@ -1,5 +1,3 @@
-![Build Status](https://github.com/your-username/your-repo/actions/workflows/unittests.yml/badge.svg)
-
 # Customer Experience Analytics for Ethiopian Top 3 Banking Apps
 
 ## Project Overview
