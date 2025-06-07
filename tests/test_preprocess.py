@@ -5,6 +5,6 @@ from src import preprocess
 
 class TestPreprocess(unittest.TestCase):
     def test_clean_reviews(self):
-        df = pd.DataFrame({"review": ["Great app!!", "Bad UI :("], "rating": [5, 1]})
+        df = pd.DataFrame({"content": ["Great app!!", "Bad UI :("], "rating": [5, 1]})
         df_clean = preprocess.clean_reviews(df)
         self.assertIn("cleaned_review", df_clean.columns)
