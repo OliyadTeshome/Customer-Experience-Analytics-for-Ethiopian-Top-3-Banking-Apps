@@ -30,20 +30,21 @@ This project collects and analyzes user reviews from the Google Play Store for t
 ├── data/                     # Raw and processed datasets (not tracked in git)
 ├── outputs/                  # Generated reports and plots
 ├── scripts/                  # Modular scripts to run parts of the pipeline
-│ ├── run_pipeline.py
-│ ├── scrape_reviews.py
-│ ├── preprocess_reviews.py
-│ ├── analyze_sentiment.py
-│ ├── extract_keywords.py
-│ ├── assign_themes.py
-│ └── generate_report.py
+│ ├── run_pipeline.py         # Full end-to-end pipeline runner
+│ ├── scrape_reviews.py       # Just scraping
+│ ├── preprocess_reviews.py   # Clean, format, save raw data
+│ ├── analyze_sentiment.py    # Apply sentiment model only
+│ ├── extract_keywords.py     # TF-IDF / spaCy keyword extraction
+│ ├── assign_themes.py        # Group into themes
+│ └── generate_report.py      # Visualizations, Excel/CSV export
 ├── src/                      # Source modules for each processing step
-│ ├── scraper.py
-│ ├── preprocess.py
-│ ├── sentiment.py
-│ ├── keywords.py
-│ ├── themes.py
-│ ├── database.py
+│ ├── _init_.py
+│ ├── scraper.py              # google-play-scraper logic
+│ ├── preprocess.py           # cleaning, deduplication, date normalization
+│ ├── sentiment.py            # DistilBERT and VADER/TextBlob support
+│ ├── keywords.py             # TF-IDF, n-gram, and spaCy keyword extraction
+│ ├── themes.py               # Group keywords into themes
+│ ├── database.py             # Store the DataFrame into OracleDB
 │ └── utils.py
 ├── tests/                    # Unit tests for src modules
 ├── requirements.txt          # Python dependencies

@@ -4,7 +4,7 @@ textblob
 pandas
 numpy
 sqlalchemy
-cx_Oracle
+oracledb
 scikit-learn
 matplotlib
 seaborn
