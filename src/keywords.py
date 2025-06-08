@@ -1,17 +1,27 @@
-### src/keywords.py
-import spacy
+# src/keywords.py
+
 from sklearn.feature_extraction.text import TfidfVectorizer
+import pandas as pd
 
-nlp = spacy.load("en_core_web_sm")
+def extract_keywords_tfidf(df, text_column='review', max_features=50, ngram_range=(1, 2)):
+    """
+    Extract top keywords using TF-IDF.
+    
+    Args:
+        df (pd.DataFrame): DataFrame with review text.
+        text_column (str): Column containing the review text.
+        max_features (int): Max number of keywords.
+        ngram_range (tuple): n-gram range, e.g., (1,2) for unigrams and bigrams.
 
-def extract_keywords_tfidf(corpus, top_n=10):
-    tfidf = TfidfVectorizer(ngram_range=(1, 2), stop_words='english')
-    X = tfidf.fit_transform(corpus)
-    indices = X.sum(axis=0).A1.argsort()[::-1][:top_n]
-    keywords = [tfidf.get_feature_names_out()[i] for i in indices]
-    return keywords
+    Returns:
+        pd.DataFrame: Keywords and TF-IDF scores.
+    """
+    tfidf = TfidfVectorizer(stop_words='english', max_features=max_features, ngram_range=ngram_range)
+    tfidf_matrix = tfidf.fit_transform(df[text_column])
+    feature_names = tfidf.get_feature_names_out()
 
+    tfidf_scores = tfidf_matrix.sum(axis=0).A1
+    keywords_df = pd.DataFrame({'keyword': feature_names, 'score': tfidf_scores})
+    keywords_df = keywords_df.sort_values(by='score', ascending=False)
 
-def spacy_tokenize(text):
-    doc = nlp(text)
-    return [token.lemma_ for token in doc if token.is_alpha and not token.is_stop]
+    return keywords_df

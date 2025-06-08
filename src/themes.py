@@ -1,19 +1,42 @@
-### src/themes.py
-THEME_KEYWORDS = {
-    'Account Access Issues': ["login", "otp", "crash", "freeze"],
-    'Transaction Performance': ["transfer", "delay", "transaction", "send"],
-    'User Interface & Experience': ["ui", "design", "navigation", "layout"],
-    'Customer Support': ["support", "help", "response", "service"],
-    'Feature Requests': ["feature", "add", "option", "customize"]
-}
+def get_theme_mapping():
+    return {
+        "User Experience": [
+            "user", "friendly", "user friendly", "easy", "easy use", "good", "great",
+            "nice", "like", "super", "amazing", "experience", "best", "best app",
+            "good app", "super app", "better", "using"
+        ],
+        "App Performance": [
+            "work", "working", "fix", "doesn", "don", "update", "reliable", "fast",
+            "time", "developer", "worst"
+        ],
+        "Banking & Transactions": [
+            "bank", "banking", "mobile banking", "banking app", "money", "transaction",
+            "transactions", "digital"
+        ],
+        "App Identity": [
+            "dashen", "cbe", "boa", "dashen bank", "apps", "application", "mobile", "app"
+        ],
+        "Feature Requests": [
+            "features", "need", "make"
+        ],
+        "Other": [
+            "ነው"
+        ]
+    }
 
-def assign_theme(review):
-    for theme, keywords in THEME_KEYWORDS.items():
-        if any(word in review.lower() for word in keywords):
-            return theme
-    return "Other"
+def assign_themes_to_keywords(keywords_df):
+    theme_map = get_theme_mapping()
+    assigned_themes = []
 
+    for keyword in keywords_df['keyword']:
+        found = False
+        for theme, words in theme_map.items():
+            if keyword.lower() in words:
+                assigned_themes.append(theme)
+                found = True
+                break
+        if not found:
+            assigned_themes.append("Other")
 
-def apply_themes(df):
-    df['theme'] = df['review'].apply(assign_theme)
-    return df
+    keywords_df['theme'] = assigned_themes
+    return keywords_df
