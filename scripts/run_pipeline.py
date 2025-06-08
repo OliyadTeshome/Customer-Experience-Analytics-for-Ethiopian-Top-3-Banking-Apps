@@ -1,41 +1,30 @@
-# scripts/run_pipeline.py
-
-from src import scraper, preprocess, sentiment, keywords, themes, utils
 import pandas as pd
+from src.database import get_engine
+from src.sentiment import analyze_sentiment
+from src.keywords import extract_keywords_spacy
+from src.themes import assign_themes  # assuming you put theme logic here
+import os
 
-# Step 0: Setup
-data_path = "data"
-utils.ensure_dir(data_path)
+if __name__ == "__main__":
+    engine = get_engine()
+    
+    print("🔹 Loading data from OracleDB...")
+    df = pd.read_sql("SELECT * FROM bank_reviews_cleaned", con=engine)
 
-# Step 1: Scrape reviews
-app_dict = {
-    "Bank A": "com.bank.a.app",
-    "Bank B": "com.bank.b.app",
-    "Bank C": "com.bank.c.app"
-}
+    print("🔹 Running Sentiment Analysis...")
+    df = analyze_sentiment(df, text_column="review_text")
 
-utils.log_step("Scraping reviews from Google Play Store...")
-df_raw = scraper.fetch_all_reviews(app_dict)
+    print("🔹 Extracting Keywords...")
+    keywords_df = extract_keywords_spacy(df, text_column="review_text", top_n=5)
+    df = df.merge(keywords_df[["review_id", "keywords"]], on="review_id", how="left")
 
-# Step 2: Preprocess
-utils.log_step("Cleaning and preprocessing data...")
-df_clean = preprocess.clean_reviews(df_raw)
-preprocess.save_clean_reviews(df_clean, f"{data_path}/clean_reviews.csv")
+    print("🔹 Assigning Themes...")
+    df = assign_themes(df)  # your rule-based logic
 
-# Step 3: Sentiment Analysis
-utils.log_step("Applying sentiment analysis...")
-df_sentiment = sentiment.apply_sentiment(df_clean)
+    print("🔹 Saving output to output/final_analysis.csv")
+    os.makedirs("output", exist_ok=True)
+    df[["review_id", "review_text", "sentiment_score", "sentiment_label", "keywords", "themes"]].to_csv(
+        "output/final_analysis.csv", index=False
+    )
 
-# Step 4: Keyword Extraction
-utils.log_step("Extracting keywords...")
-keywords_list = keywords.extract_keywords_tfidf(df_sentiment['review'])
-utils.log_step(f"Top keywords: {keywords_list}")
-
-# Step 5: Theme Assignment
-utils.log_step("Assigning themes...")
-df_themed = themes.apply_themes(df_sentiment)
-
-# Step 6: Save Final Output
-output_path = f"{data_path}/final_reviews.csv"
-df_themed.to_csv(output_path, index=False)
-utils.log_step(f"Pipeline complete. Final output saved to {output_path}")
+    print("✅ Pipeline complete!")
