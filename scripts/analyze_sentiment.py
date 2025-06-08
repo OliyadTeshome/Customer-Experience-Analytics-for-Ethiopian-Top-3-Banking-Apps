@@ -1,12 +1,16 @@
-# scripts/analyze_sentiment.py
-
-from src import sentiment, utils
 import pandas as pd
+from src.sentiment import analyze_sentiment
+from src.database import get_engine
 
-utils.log_step("Loading cleaned data...")
-df = pd.read_csv("data/clean_reviews.csv")
-
-utils.log_step("Running sentiment analysis...")
-df_sent = sentiment.apply_sentiment(df)
-df_sent.to_csv("data/sentiment_reviews.csv", index=False)
-utils.log_step("Saved sentiment-labeled data to data/sentiment_reviews.csv")
+if __name__ == "__main__":
+    engine = get_engine()
+    
+    # Load cleaned data from OracleDB
+    df = pd.read_sql("SELECT * FROM bank_reviews_cleaned", con=engine)
+    
+    # Run sentiment analysis
+    df = analyze_sentiment(df, text_column="review_text")
+    
+    # Save result to disk
+    df.to_csv("output/sentiment_results.csv", index=False)
+    print("✅ Sentiment analysis completed and saved to output/sentiment_results.csv")
