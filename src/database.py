@@ -29,3 +29,20 @@ def insert_dataframe(df, table_name, engine, if_exists="append"):
         print(f"Data inserted successfully into '{table_name}'.")
     except SQLAlchemyError as e:
         print(f"Error inserting data into '{table_name}': {e}")
+
+def insert_dataframe(df, table_name, engine, if_exists="append"):
+    """
+    Insert a pandas DataFrame into an Oracle table with commit handling.
+
+    Args:
+        df (pd.DataFrame): DataFrame to insert.
+        table_name (str): Target table name.
+        engine: SQLAlchemy engine.
+        if_exists (str): 'append', 'replace', or 'fail'.
+    """
+    try:
+        with engine.begin() as connection:
+            df.to_sql(name="bank_review_analysis", con=connection, if_exists=if_exists, index=False)
+        print(f"Data inserted successfully into '{table_name}'.")
+    except SQLAlchemyError as e:
+        print(f"Error inserting data into '{table_name}': {e}")
