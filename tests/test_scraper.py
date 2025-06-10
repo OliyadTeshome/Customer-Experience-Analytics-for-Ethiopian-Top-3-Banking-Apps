@@ -25,7 +25,11 @@ class TestScraper(unittest.TestCase):
         expected_cols = {"review", "rating", "date", "app_name"}
         self.assertTrue(expected_cols.issubset(df.columns))
         # Check mock was called once per app
-        mock_fetch.assert_called_once_with("com.example.testapp", "TestApp", 10)
-
+        expected_calls = [
+            call("com.example.testapp", "TestApp", 10, lang='en', country='us'),
+            call("com.example.testapp", "TestApp", 10, lang='am', country='et')
+        ]
+        mock_fetch.assert_has_calls(expected_calls, any_order=True)
+        
 if __name__ == "__main__":
     unittest.main()
