@@ -5,9 +5,13 @@ This directory contains Jupyter notebooks for interactive data exploration, anal
 ## Notebook Structure
 
 notebooks/
+
 ├── 01_scrape_and_explore.ipynb      # Initial data collection and exploration
+
 ├── 02_preprocessing_and_cleaning.ipynb  # Data cleaning and preparation
+
 ├── 03_sentiment_and_keywords.ipynb      # Text analysis and feature extraction
+
 └── 04_theming_and_reporting.ipynb       # Visualization and reporting
 
 ## Usage
