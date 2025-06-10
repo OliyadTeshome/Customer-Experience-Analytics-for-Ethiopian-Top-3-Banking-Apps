@@ -47,6 +47,7 @@ def analyze_sentiment(text, translate=True):
         label (str): sentiment label (POSITIVE, NEGATIVE)
         score (float): confidence score
     """
+<<<<<<< HEAD
     if translate:
         text = translate_to_english(text)
         utils.log_sentiment_analysis(len(text), translated=True)
@@ -57,6 +58,15 @@ def analyze_sentiment(text, translate=True):
     return result['label'], result['score']
 
 def analyze_sentiments_batch(df, text_col='review', translate=True):
+=======
+    if not isinstance(text, str) or not text.strip():
+        return "NEUTRAL", 0.5  # Return neutral sentiment for empty/None values
+        
+    result = _sentiment_pipeline(text[:512])[0]
+    return result['label'], result['score']
+
+def analyze_sentiments_batch(df, text_col='review_translated'):
+>>>>>>> Task-2
     """
     Apply sentiment analysis to a DataFrame in batch.
     Args:

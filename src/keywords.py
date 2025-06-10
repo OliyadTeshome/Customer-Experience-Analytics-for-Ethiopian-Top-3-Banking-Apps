@@ -16,8 +16,17 @@ def extract_keywords_tfidf(df, text_column='review', max_features=50, ngram_rang
     Returns:
         pd.DataFrame: Keywords and TF-IDF scores.
     """
+    # Handle None values and non-string values by converting to empty strings
+    texts = df[text_column].astype(str).replace('None', '').replace('nan', '')
+    
+    # Remove any empty strings
+    texts = texts[texts.str.strip().str.len() > 0]
+    
+    if len(texts) == 0:
+        return pd.DataFrame({'keyword': [], 'score': []})
+    
     tfidf = TfidfVectorizer(stop_words='english', max_features=max_features, ngram_range=ngram_range)
-    tfidf_matrix = tfidf.fit_transform(df[text_column])
+    tfidf_matrix = tfidf.fit_transform(texts)
     feature_names = tfidf.get_feature_names_out()
 
     tfidf_scores = tfidf_matrix.sum(axis=0).A1
