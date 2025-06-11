@@ -19,7 +19,6 @@ The analysis provides actionable insights on customer satisfaction, key pain poi
   - Translate non-English reviews
 - **Sentiment Analysis**: 
   - Implement DistilBERT for sentiment classification
-  - Support for VADER/TextBlob as alternatives
   - Handle multiple languages including Amharic
 - **Theme Extraction**: 
   - Identify key topics and themes
